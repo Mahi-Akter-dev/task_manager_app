@@ -1,5 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:task_manager/task_manager/screens/main_nav_screen.dart';
+import 'package:task_manager/task_manager/screens/sign_up_screen.dart';
 import 'package:task_manager/task_manager/widgets/screen_bg.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -10,6 +13,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  onTapSignUp() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SignUpScreen()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +46,12 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 20),
 
               FilledButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainNavScreen()),
+                  );
+                },
                 child: Icon(Icons.arrow_forward_ios_sharp, size: 20),
               ),
 
@@ -66,6 +81,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.green,
                               fontWeight: FontWeight.bold,
                             ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = onTapSignUp,
                           ),
                         ],
                       ),

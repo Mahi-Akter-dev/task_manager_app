@@ -1,9 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:task_manager/task_manager/screens/login_screen.dart';
-
-import '../utils/asset_path.dart';
-import '../widgets/screen_bg.dart';
+import 'package:task_manager/task_manager/utils/asset_path.dart';
+import 'package:task_manager/task_manager/widgets/screen_bg.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
