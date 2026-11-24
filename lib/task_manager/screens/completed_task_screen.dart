@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart';
-
-import '../widgets/task_card.dart';
+import 'package:task_manager/task_manager/widgets/task_card.dart';
 
 class CompletedTaskScreen extends StatefulWidget {
   const CompletedTaskScreen({super.key});
