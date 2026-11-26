@@ -37,6 +37,85 @@ class _TaskCardState extends State<TaskCard> {
     }
   }
 
+  Future<void> changeStatusTask(String status) async {
+    final ApiResponse response = await ApiCaller.getRequest(
+      url: TMUrls.updateTaskStatusURL(widget.taskModel.sId.toString(), status),
+    );
+
+    setState(() {});
+
+    if (response.isSuccess) {
+      widget.refreshParent();
+      Navigator.pop(context);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Task updated')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('something wrong....!')));
+    }
+  }
+
+  void showChangeStatusDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Change Status'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Card(
+              child: ListTile(
+                title: Text('New'),
+                onTap: () {
+                  changeStatusTask('New');
+                },
+                trailing: widget.taskModel.status == 'New'
+                    ? Icon(Icons.check_circle, color: Colors.green)
+                    : null,
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('Progress'),
+                onTap: () {
+                  changeStatusTask('Progress');
+                },
+
+                trailing: widget.taskModel.status == 'Progress'
+                    ? Icon(Icons.check_circle, color: Colors.green)
+                    : null,
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('Completed'),
+                onTap: () {
+                  changeStatusTask('Completed');
+                },
+
+                trailing: widget.taskModel.status == 'Completed'
+                    ? Icon(Icons.check_circle, color: Colors.green)
+                    : null,
+              ),
+            ),
+            Card(
+              child: ListTile(
+                title: Text('Cancelled'),
+                onTap: () {
+                  changeStatusTask('Cancelled');
+                },
+
+                trailing: widget.taskModel.status == 'Cancelled'
+                    ? Icon(Icons.check_circle, color: Colors.green)
+                    : null,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -65,7 +144,9 @@ class _TaskCardState extends State<TaskCard> {
                 Spacer(),
 
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    showChangeStatusDialog();
+                  },
                   icon: Icon(Icons.edit_note, color: Colors.orange),
                 ),
                 IconButton(
