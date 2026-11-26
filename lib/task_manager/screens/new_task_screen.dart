@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:task_manager/task_manager/models/api_response.dart';
 import 'package:task_manager/task_manager/models/task_model.dart';
 import 'package:task_manager/task_manager/models/task_status_count_model.dart';
+import 'package:task_manager/task_manager/screens/add_task_screen.dart';
 import 'package:task_manager/task_manager/service/api_caller.dart';
 import 'package:task_manager/task_manager/utils/urls.dart';
 import 'package:task_manager/task_manager/widgets/task_card.dart';
@@ -103,12 +104,25 @@ class _NewTaskScreenState extends State<NewTaskScreen> {
                 return TaskCard(
                   taskModel: taskList[index],
                   cardColor: Colors.blue,
-                  refreshParent: () {},
+                  refreshParent: () {
+                    getAllTaskCount();
+                    getTask('New');
+                    setState(() {});
+                  },
                 );
               },
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddNewTaskScreen()),
+          );
+        },
+        child: Icon(Icons.add),
       ),
     );
   }

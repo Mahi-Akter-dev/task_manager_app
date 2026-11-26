@@ -1,8 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:task_manager/task_manager/models/api_response.dart';
 import 'package:task_manager/task_manager/models/task_model.dart';
+import 'package:task_manager/task_manager/service/api_caller.dart';
+import 'package:task_manager/task_manager/utils/urls.dart';
 
-class TaskCard extends StatelessWidget {
+class TaskCard extends StatefulWidget {
   final TaskModel taskModel;
   final Color cardColor;
   final VoidCallback refreshParent;
@@ -15,28 +18,48 @@ class TaskCard extends StatelessWidget {
   });
 
   @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
+  Future<void> deleteTask() async {
+    final ApiResponse response = await ApiCaller.getRequest(
+      url: TMUrls.deleteTaskURL(widget.taskModel.sId.toString()),
+    );
+
+    if (response.isSuccess) {
+      widget.refreshParent();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Task Deleted')));
+    } else {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('something wrong....!')));
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         title: Text(
-          taskModel.title.toString(),
+          widget.taskModel.title.toString(),
           style: Theme.of(context).textTheme.titleLarge!.copyWith(fontSize: 18),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(taskModel.description.toString()),
+            Text(widget.taskModel.description.toString()),
             SizedBox(height: 5),
-            Text('Date:${taskModel.createdDate}'),
+            Text('Date:${widget.taskModel.createdDate}'),
 
             Row(
               children: [
                 Chip(
                   label: Text(
-                    taskModel.status.toString(),
+                    widget.taskModel.status.toString(),
                     style: TextStyle(color: Colors.white),
                   ),
-                  backgroundColor: cardColor,
+                  backgroundColor: widget.cardColor,
                 ),
 
                 Spacer(),
@@ -46,7 +69,9 @@ class TaskCard extends StatelessWidget {
                   icon: Icon(Icons.edit_note, color: Colors.orange),
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    deleteTask();
+                  },
                   icon: Icon(Icons.delete, color: Colors.red),
                 ),
               ],

@@ -4,6 +4,7 @@ import 'package:task_manager/task_manager/screens/cancel_task_screen.dart';
 import 'package:task_manager/task_manager/screens/completed_task_screen.dart';
 import 'package:task_manager/task_manager/screens/new_task_screen.dart';
 import 'package:task_manager/task_manager/screens/progress_task_screen.dart';
+import 'package:task_manager/task_manager/widgets/tm_appbar.dart';
 
 class MainNavScreen extends StatefulWidget {
   const MainNavScreen({super.key});
@@ -25,35 +26,7 @@ class _MainNavScreenState extends State<MainNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        title: Row(
-          children: [
-            CircleAvatar(
-              radius: 25,
-              backgroundImage: NetworkImage(
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrN3fMD9X1_p5b6lRSCGcpDtH9BcgEOsEZLg&s',
-              ),
-            ),
-            SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Taufiqur Sabbir',
-                  style: Theme.of(context).textTheme.titleSmall!
-                      .copyWith(color: Colors.white),
-                ),
-                Text(
-                  'taufiqur@gmail.com',
-                  style: Theme.of(context).textTheme.titleSmall!
-                      .copyWith(color: Colors.white),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      appBar: TmAppBar(),
       body: screens[selectedIndex],
 
       bottomNavigationBar: NavigationBar(
